@@ -1,3 +1,5 @@
+import functools
+
 class Node(object):
     def __init__(self, key, value):
         self.key = key
@@ -91,3 +93,8 @@ class LRUCache:
             else:
                 node = self.cache.add(key, value)
                 self.table[key] = node
+
+# using the functools cache decorator
+@functools.lru_cache
+def factorial(n: int) -> int:
+    return n*factorial(n-1) if n > 1 else 1
