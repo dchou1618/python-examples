@@ -1,4 +1,4 @@
-from Algorithms.datastructs.hash_table import RandomizedSet
+from Algorithms.datastructs.hash_table.hash_table import RandomizedSet
 
 def test_randomized_set():
     rs = RandomizedSet()
