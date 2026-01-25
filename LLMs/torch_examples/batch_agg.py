@@ -31,9 +31,10 @@ def normalize_per_batch(p: int, num_samples: int = 100, batch_size: int = 10):
   if remainder == 0:
     # evenly split
     batch_mat = mat.view(num_batches, batch_size, p)
-    means = batch_mat.mean(dim=1)
-    stds = batch_mat.std(dim=1)
-    return (batch_mat - means) / (stds + 1e-8)
+    means = batch_mat.mean(dim=1, keepdim=True)  # (num_batches, 1, p)
+    stds = batch_mat.std(dim=1, keepdim=True)    # (num_batches, 1, p)
+    standardized = (batch_mat - means) / (stds + 1e-8)
+    return standardized.view(num_samples, p)
   else:
     # scattered
     batch_ids = torch.randint(0, num_batches, (num_samples,))
