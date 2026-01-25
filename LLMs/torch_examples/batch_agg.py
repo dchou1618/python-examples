@@ -40,7 +40,6 @@ def normalize_per_batch(p: int, num_samples: int = 100, batch_size: int = 10):
     batch_ids = torch.randint(0, num_batches, (num_samples,))
     # count per group
     counts = torch.bincount(batch_ids, minlength=num_batches).unsqueeze(1)
-    print(counts)
     batch_ids_processed = batch_ids.unsqueeze(1).expand(-1, p)
     sum_per_group = torch.zeros((num_batches, p))\
                          .scatter_add_(0, batch_ids_processed, mat)
