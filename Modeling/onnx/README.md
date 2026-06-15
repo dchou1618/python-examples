@@ -40,19 +40,6 @@ onnx/
 │   ├── mlp_baseline.onnx
 │   └── mlp_optimized.onnx
 │
-├── benchmarks/
-│   ├── baseline.json
-│   └── optimized.json
-│
 ├── scripts/
-│   ├── export.py
-│   ├── benchmark.py
-│   ├── optimize.py
-│   ├── inspect.py
-│   └── playground.py
-│
-└── outputs/
-    ├── graph_before.txt
-    ├── graph_after.txt
-    └── node_counts.json
+│   ├── examine.py
 ```
