@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-import dijkstra,math,sys,random,Tkinter as tk
+import Algorithms.graph.dijkstra.dijkstra as dijkstra,math,sys,random,Tkinter as tk
 from Tkinter import *
-from dijkstra import *
+from Algorithms.graph.dijkstra.dijkstra import *
 
 # generates a dijkstra network of arbitrary edges and connections
 def createNetwork(outerLoop=int(sys.argv[1]),innerLoop=int(sys.argv[2])):
