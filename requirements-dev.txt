@@ -1,0 +1,11 @@
+# Development requirements (compatible with Python >=3.8,<3.13)
+# Tested on Python 3.12.10
+
+# Pytest: modern 7.x series
+pytest>=7.4,<8 ; python_version >= '3.8' and python_version < '3.13'
+
+# PyTorch: 2.x series (pick a compatible build for your platform)
+torch>=2.2,<3 ; python_version >= '3.8' and python_version < '3.13'
+
+# Pydantic: v2+ (compatible with Python 3.12)
+pydantic>=2.0,<3 ; python_version >= '3.8' and python_version < '3.13'
