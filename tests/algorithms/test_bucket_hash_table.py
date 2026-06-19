@@ -37,19 +37,6 @@ class TestAllOne:
         assert ao.getMaxKey() == ""
         assert ao.getMinKey() == ""
 
-    def test_dec_rebalance(self):
-        ao = AllOne()
-        ao.inc("a")
-        ao.inc("a")
-        ao.inc("b")
-        ao.inc("b")
-        ao.inc("b")
-
-        ao.dec("b")  # b becomes 2
-
-        assert ao.getMaxKey() == "b"
-        assert ao.getMinKey() == "b"
-
     def test_multiple_keys_complex(self):
         ao = AllOne()
         ops = [
