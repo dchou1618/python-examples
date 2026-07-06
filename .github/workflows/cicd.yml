@@ -26,8 +26,9 @@ jobs:
           python -m pip install -r requirements-dev.txt
           python -m pip install -e .
 
-      - name: Run tests
-        run: pytest -q
+      - name: Run tests with coverage
+        run: |
+          pytest -q --cov=Algorithms --cov-report=term-missing --cov-fail-under=90
 
   build_and_push:
     name: Build & Push Docker (CD)

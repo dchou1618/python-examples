@@ -9,3 +9,6 @@ torch>=2.2,<3 ; python_version >= '3.8' and python_version < '3.13'
 
 # Pydantic: v2+ (compatible with Python 3.12)
 pydantic>=2.0,<3 ; python_version >= '3.8' and python_version < '3.13'
+
+# pytest-cov: code coverage plugin for pytest
+pytest-cov>=4.0,<5 ; python_version >= '3.8' and python_version < '3.13'
