@@ -1,6 +1,14 @@
 from typing import List, Dict
 def deduplicate(findings: List[Dict]) -> List[Dict]:
-    pass
+    seen = set()
+    output = []
+    for finding in findings:
+        key = (finding["file"], finding["line"], finding["rule"])
+        if key not in seen:
+            seen.add(key)
+            output.append(finding)
+        
+    return output
 
 findings = [
  {
@@ -19,3 +27,5 @@ findings = [
   "rule":"XSS001"
  }
 ]
+
+print(deduplicate(findings))
