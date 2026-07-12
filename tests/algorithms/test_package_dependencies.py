@@ -1,4 +1,4 @@
-from Algorithms.static_analysis.package_dependency import find_dependency_cycle
+from Algorithms.static_analysis.package_dependency import find_dependency_cycle, find_dependency_cycle_stack
 import pytest
 
 @pytest.mark.parametrize(
@@ -50,6 +50,8 @@ import pytest
 def test_basic_cases(input_deps, expected):
     cycle_output = find_dependency_cycle(input_deps)
     assert sorted(cycle_output) == sorted(expected)
+    cycle_output_stack = find_dependency_cycle_stack(input_deps)
+    assert sorted(cycle_output_stack) == sorted(expected)
 
 def test_non_back_edges():
     deps = {
@@ -61,3 +63,5 @@ def test_non_back_edges():
     }
     output = [['A', 'B', 'C', 'A'], ['B', 'D', 'E', 'B']]
     assert sorted(find_dependency_cycle(deps)) == sorted(output)
+    cycle_output_stack = find_dependency_cycle_stack(deps)
+    assert cycle_output_stack == sorted(output)
