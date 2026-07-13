@@ -1,5 +1,5 @@
 import pytest
-from Algorithms.static_analysis.ast_tree import Node, find_calls
+from Algorithms.static_analysis.ast_tree import Node, find_calls, match
 
 
 @pytest.mark.parametrize(
@@ -52,3 +52,32 @@ def test_ast_tree(input_node, target, expected_count):
 
     assert len(result) == expected_count
 
+
+def test_rule_match_ast_tree():
+    rule = Node(
+        "Call",
+        children=[
+            Node("Name", "eval"),
+            Node("MetaVar", "X")
+        ]
+    )
+
+    code = Node(
+        "Call",
+        children=[
+            Node("Name", "eval"),
+            Node("Name", "user_input")
+        ]
+    )
+
+    captures = {}
+
+    result = match(
+        rule,
+        code,
+        captures
+    )
+    assert result
+    assert captures == {
+        "X": Node("Name", "user_input")
+    }

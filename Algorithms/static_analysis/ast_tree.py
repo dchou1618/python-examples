@@ -1,10 +1,20 @@
-
+from typing import Dict
 
 class Node:
     def __init__(self, node_type, value=None, children=None):
         self.node_type = node_type
         self.value = value
         self.children = children if children is not None else []
+
+    def __repr__(self):
+        if self.value:
+            return f"{self.node_type}({self.value})"
+        return f"{self.node_type}({self.children})"
+    
+    def __eq__(self, other):
+        return self.node_type == other.node_type and \
+               self.value == other.value and \
+               self.children == other.children
 
 def find_calls(root: Node, function_name: str):
     """
@@ -22,3 +32,11 @@ def find_calls(root: Node, function_name: str):
                 gather_calls(child, function_name)
     gather_calls(root, function_name)
     return calls
+
+def match(rule_node: Node, code_node: Node, captures: Dict[str, Node]):
+    """
+    Returns True if code_node matches rule_node.
+
+    captures should be populated with metavariable bindings.
+    """
+    pass
