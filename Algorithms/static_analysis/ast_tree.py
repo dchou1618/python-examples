@@ -39,4 +39,28 @@ def match(rule_node: Node, code_node: Node, captures: Dict[str, Node]):
 
     captures should be populated with metavariable bindings.
     """
-    pass
+    if rule_node is None or code_node is None:
+        return rule_node is code_node
+
+    if rule_node.node_type == "MetaVar":
+        name = rule_node.value
+        if name in captures:
+            return captures[name] == code_node
+        captures[name] = code_node
+        return True
+
+    if rule_node.node_type != code_node.node_type:
+        return False
+
+    if rule_node.value is not None:
+        if code_node.value is None or rule_node.value != code_node.value:
+            return False
+
+    if len(rule_node.children) != len(code_node.children):
+        return False
+
+    for rule_child, code_child in zip(rule_node.children, code_node.children):
+        if not match(rule_child, code_child, captures):
+            return False
+
+    return True
