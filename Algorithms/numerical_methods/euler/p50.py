@@ -1,27 +1,17 @@
 from typing import Optional
 
-def is_prime(n: int):
-    if n < 1:
-        raise ValueError("n must be at least 1")
-    elif n == 1:
-        return False
-    elif n == 2:
-        return True
-    elif n % 2 == 0:
-        return False
-    else:
-        for i in range(3, int(math.sqrt(n))+1):
-            if n % i == 0:
-                return False
-        return True
-    
+
 def sieve(n: int):
-    is_prime = [True]*(n+1)
+    is_prime = [True] * (n + 1)
+    if n >= 0:
+        is_prime[0] = False
+    if n >= 1:
+        is_prime[1] = False
     primes = []
-    for p in range(2, n+1):
+    for p in range(2, n + 1):
         if is_prime[p]:
             primes.append(p)
-            for v in range(p*p, n+1, p):
+            for v in range(p * p, n + 1, p):
                 is_prime[v] = False
     return is_prime, primes
 
