@@ -2,13 +2,8 @@ from collections import defaultdict
 from enum import IntEnum
 from typing import Any, Dict, List
 
-VALUE_MAP = {
-    "T": 10,
-    "J": 11,
-    "Q": 12,
-    "K": 13,
-    "A": 14
-}
+VALUE_MAP = {"T": 10, "J": 11, "Q": 12, "K": 13, "A": 14}
+
 
 class Rank(IntEnum):
     HIGH_CARD = 0
@@ -22,17 +17,20 @@ class Rank(IntEnum):
     STRAIGHT_FLUSH = 8
     ROYAL_FLUSH = 9
 
+
 def union_find_longest_consecutive(nums):
     parent = {}
     size = {}
     for x in nums:
         parent[x] = x
         size[x] = 1
+
     def find(x):
         if parent[x] != x:
             parent[x] = find(parent[x])
         return parent[x]
-    def union(a,b):
+
+    def union(a, b):
         ra, rb = find(a), find(b)
         if ra == rb:
             return
@@ -41,12 +39,14 @@ def union_find_longest_consecutive(nums):
         # assume rb is the smaller one
         parent[rb] = ra
         size[ra] += size[rb]
+
     snums = set(nums)
     for x in snums:
-        if x+1 in snums:
-            union(x, x+1)
+        if x + 1 in snums:
+            union(x, x + 1)
     return max(size[find(x)] for x in nums)
-    
+
+
 def gather_hand_information(hand: List[str]) -> Dict[str, Any]:
     """
     return:
@@ -58,7 +58,7 @@ def gather_hand_information(hand: List[str]) -> Dict[str, Any]:
     all_same = True
     d = defaultdict(int)
     vals = []
-    for (val, suit) in [tuple(card) for card in hand]:
+    for val, suit in [tuple(card) for card in hand]:
         if suit not in seen:
             if not seen:
                 seen.add(suit)
@@ -67,20 +67,19 @@ def gather_hand_information(hand: List[str]) -> Dict[str, Any]:
         int_val = VALUE_MAP[val] if val in VALUE_MAP else int(val)
         d[int_val] += 1
         vals.append(int_val)
-    all_consecutive = (union_find_longest_consecutive(vals) == len(hand))
-    return {"all_same_suit": all_same, 
-            "value_counts": d,
-            "all_consecutive": all_consecutive
+    all_consecutive = union_find_longest_consecutive(vals) == len(hand)
+    return {
+        "all_same_suit": all_same,
+        "value_counts": d,
+        "all_consecutive": all_consecutive,
     }
+
 
 def determine_rank(player_info: Dict[str, Any]) -> tuple[Rank, tuple]:
     counts = player_info["value_counts"]
 
     # values sorted by (count, value)
-    groups = sorted(
-        ((cnt, val) for val, cnt in counts.items()),
-        reverse=True
-    )
+    groups = sorted(((cnt, val) for val, cnt in counts.items()), reverse=True)
 
     values_desc = sorted(counts.keys(), reverse=True)
 
@@ -141,6 +140,7 @@ def determine_rank(player_info: Dict[str, Any]) -> tuple[Rank, tuple]:
 
     return Rank.HIGH_CARD, tuple(values_desc)
 
+
 def poker_hands(poker_file: str) -> int:
     player1_wins = 0
     with open(poker_file) as f:
@@ -154,6 +154,8 @@ def poker_hands(poker_file: str) -> int:
             if rank1 > rank2:
                 player1_wins += 1
             elif rank1 == rank2:
-                if max(player1_info["value_counts"].keys()) > max(player2_info["value_counts"].keys()):
+                if max(player1_info["value_counts"].keys()) > max(
+                    player2_info["value_counts"].keys()
+                ):
                     player1_wins += 1
     return player1_wins

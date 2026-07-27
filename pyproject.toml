@@ -17,3 +17,8 @@ package-dir = {"" = "."}
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["Algorithms*", "LLMs*"]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=3.5.0",
+]

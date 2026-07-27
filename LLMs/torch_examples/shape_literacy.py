@@ -2,27 +2,27 @@ import torch
 
 x = torch.randn(10)
 y = x.unsqueeze(1)
-print(x.shape,y.shape)
+print(x.shape, y.shape)
 
 x = torch.randn(4, 1, 8)
 y = x.squeeze()
-print(x.shape,y.shape)
+print(x.shape, y.shape)
 
-x = torch.randn(2,3,4)
+x = torch.randn(2, 3, 4)
 print(x, x.shape)
 # reshape to same number of elements, but different shape
-y = x.view(12,2)
+y = x.view(12, 2)
 print(y, y.shape)
-z = x.reshape(12,2)
+z = x.reshape(12, 2)
 print(z, z.shape)
 
 x = torch.randn(5, 1)
-z = x.expand(5,3)
-print(x,y)
+z = x.expand(5, 3)
+print(x, y)
 print(x.shape, z.shape)
 
 # copies the data
-y = x.repeat(1,3)
+y = x.repeat(1, 3)
 print(y)
 print(y.shape)
 y[0, 0] = 10

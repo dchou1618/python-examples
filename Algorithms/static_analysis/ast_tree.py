@@ -1,5 +1,6 @@
 from typing import Dict
 
+
 class Node:
     def __init__(self, node_type, value=None, children=None):
         self.node_type = node_type
@@ -10,11 +11,14 @@ class Node:
         if self.value:
             return f"{self.node_type}({self.value})"
         return f"{self.node_type}({self.children})"
-    
+
     def __eq__(self, other):
-        return self.node_type == other.node_type and \
-               self.value == other.value and \
-               self.children == other.children
+        return (
+            self.node_type == other.node_type
+            and self.value == other.value
+            and self.children == other.children
+        )
+
 
 def find_calls(root: Node, function_name: str):
     """
@@ -22,16 +26,22 @@ def find_calls(root: Node, function_name: str):
     First child node is the name of the function
     """
     calls = []
+
     def gather_calls(root, function_name):
         if root:
             if root.node_type == "Call":
-                if root.children and root.children[0].node_type == "Name" and \
-                    root.children[0].value == function_name:
+                if (
+                    root.children
+                    and root.children[0].node_type == "Name"
+                    and root.children[0].value == function_name
+                ):
                     calls.append(root)
             for child in root.children:
                 gather_calls(child, function_name)
+
     gather_calls(root, function_name)
     return calls
+
 
 def match(rule_node: Node, code_node: Node, captures: Dict[str, Node]):
     """

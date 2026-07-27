@@ -1,5 +1,6 @@
 # utils.py
 
+
 def sieve(n: int):
     is_prime = [True] * (n + 1)
     if n >= 0:

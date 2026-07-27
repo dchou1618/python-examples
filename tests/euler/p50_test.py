@@ -11,4 +11,3 @@ def test_sieve_marks_zero_and_one_as_non_prime():
 
 def test_sol():
     assert consecutive_prime_sum(n=1_000_000) == 997651
-
