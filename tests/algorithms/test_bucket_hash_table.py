@@ -1,5 +1,6 @@
 from Algorithms.datastructs.hash_table.bucket_hash_table import AllOne
 
+
 class TestAllOne:
     def test_basic_inc_max_min(self):
         ao = AllOne()

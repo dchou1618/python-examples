@@ -1,11 +1,10 @@
 import time
-import pytest
-import functools
 from Algorithms.datastructs.hash_table.cache import LRUCache, factorial
 
 # -------------------------
 # Correctness tests: LRUCache
 # -------------------------
+
 
 def test_basic_put_get():
     cache = LRUCache(2)
@@ -86,6 +85,7 @@ def test_repeated_get_does_not_break_order():
 # -------------------------
 # Timing tests: functools.lru_cache
 # -------------------------
+
 
 def uncached_factorial(n: int) -> int:
     return n * uncached_factorial(n - 1) if n > 1 else 1

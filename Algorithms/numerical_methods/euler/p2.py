@@ -14,4 +14,3 @@ def even_fib(n: int):
             v2 = v2 + v1
             v1 = temp
         return s
-        

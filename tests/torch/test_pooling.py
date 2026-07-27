@@ -1,6 +1,6 @@
 import torch
-import pytest
 from LLMs.torch_examples.pooling import VariableSortedHistoryPooling
+
 
 def loop_pooling(emb, event_indices, offsets):
     pooled = []
@@ -17,7 +17,7 @@ def test_variable_sorted_history_pooling():
     # ----- Test configuration -----
     vocab_size = 50
     emb_dim = 8
-    B = 4                   # number of users
+    B = 4  # number of users
     lengths = torch.tensor([3, 1, 4, 2])
     offsets = torch.cat([torch.tensor([0]), lengths.cumsum(0)])
     N = offsets[-1].item()

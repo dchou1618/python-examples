@@ -1,5 +1,6 @@
 from typing import Dict, List
 
+
 def find_dependency_cycle(deps: Dict[str, List[str]]) -> List[List[str]]:
     """
     dfs back edges for cycle detection
@@ -9,6 +10,7 @@ def find_dependency_cycle(deps: Dict[str, List[str]]) -> List[List[str]]:
     # there may be more than one cycle
     path = []
     cycles = []
+
     def dfs(node):
         if node in visiting:
             idx = path.index(node)
@@ -24,16 +26,16 @@ def find_dependency_cycle(deps: Dict[str, List[str]]) -> List[List[str]]:
 
         for neighbor in deps[node]:
             dfs(neighbor)
-        
+
         path.pop()
         visiting.remove(node)
-
 
     for node in deps:
         if node not in visited:
             dfs(node)
 
     return cycles
+
 
 def find_dependency_cycle_stack(deps: Dict[str, List[str]]) -> List[List[str]]:
     """
@@ -46,7 +48,6 @@ def find_dependency_cycle_stack(deps: Dict[str, List[str]]) -> List[List[str]]:
     cycles = []
     for start in deps:
         if start not in visited:
-
             stack = [(start, False)]
             while stack:
                 node, exiting = stack.pop()
