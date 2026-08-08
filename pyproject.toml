@@ -9,7 +9,9 @@ description = "Algorithms and systems examples repo"
 readme = "README.md"
 requires-python = ">=3.8"
 
-dependencies = []
+dependencies = [
+    "numpy>=1.23.5",
+]
 
 [tool.setuptools]
 package-dir = {"" = "."}
@@ -21,4 +23,5 @@ include = ["Algorithms*", "LLMs*"]
 [dependency-groups]
 dev = [
     "pre-commit>=3.5.0",
+    "pytest-cov>=4.0,<5",
 ]
