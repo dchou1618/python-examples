@@ -36,3 +36,4 @@ jobs:
       - name: Run tests with coverage
         run: |
           pytest -q --cov=Algorithms --cov-report=term-missing --cov-fail-under=80
+
