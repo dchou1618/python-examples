@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def normalize_l2(A: np.array, dim: int) -> np.array:
     """
     input:
@@ -14,6 +15,7 @@ def normalize_l2(A: np.array, dim: int) -> np.array:
     norm = np.sqrt((A**2).sum(axis=dim, keepdims=True))
     return A / norm
 
+
 def layer_norm(A: np.array) -> np.array:
     """
     input:
@@ -25,7 +27,8 @@ def layer_norm(A: np.array) -> np.array:
     means = A.mean(axis=2, keepdims=True)
     vars = A.var(axis=2, keepdims=True)
 
-    return (A-means)/np.sqrt(vars + 1e-5)
+    return (A - means) / np.sqrt(vars + 1e-5)
+
 
 def batch_norm(A: np.array) -> np.array:
     """
@@ -37,7 +40,7 @@ def batch_norm(A: np.array) -> np.array:
     """
     if len(A.shape) != 3:
         raise ValueError("Input must be a 3D array with shape [B, N, D]")
-    means = A.mean(axis=(0,1), keepdims=True)
-    vars = A.var(axis=(0,1), keepdims=True)
+    means = A.mean(axis=(0, 1), keepdims=True)
+    vars = A.var(axis=(0, 1), keepdims=True)
 
-    return (A-means)/np.sqrt(vars + 1e-5)
+    return (A - means) / np.sqrt(vars + 1e-5)

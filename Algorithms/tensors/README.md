@@ -3,4 +3,3 @@
 * Goal
 * Set of vectorized operations
 * Establish output tensor size(s)
-
