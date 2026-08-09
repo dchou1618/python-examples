@@ -44,3 +44,27 @@ def batch_norm(A: np.array) -> np.array:
     vars = A.var(axis=(0, 1), keepdims=True)
 
     return (A - means) / np.sqrt(vars + 1e-5)
+
+def pairwise_cosine(A: np.array) -> np.array:
+    """
+    input:
+    A: [N, D]
+
+    output:
+    [N, N]: each entry in matrix is cosine similarity
+    """
+    norm = np.sqrt((A**2).sum(axis=1, keepdims=True))
+    normalized = A / norm
+    return normalized @ normalized.T
+
+def pairwise_cosine_broadcast(A: np.array) -> np.array:
+    """
+    input:
+    A: [N, D]
+
+    output:
+    [N, N]: each entry in matrix is cosine similarity
+    """
+    norm = np.sqrt((A**2).sum(axis=1, keepdims=True))
+    normalized = A / norm
+    return (normalized[:, None, :] * normalized[None, :, :]).sum(axis=-1)

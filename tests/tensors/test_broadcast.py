@@ -1,4 +1,4 @@
-from Algorithms.tensors.broadcast import layer_norm, batch_norm, normalize_l2
+from Algorithms.tensors.broadcast import layer_norm, batch_norm, normalize_l2, pairwise_cosine, pairwise_cosine_broadcast
 import numpy as np
 import pytest
 
@@ -33,3 +33,34 @@ def test_batch_norm_statistics_and_errors():
     assert np.allclose(vars, 1, rtol=1e-3)
     with pytest.raises(ValueError):
         batch_norm(np.zeros((3, 4)))
+
+
+def test_pairwise_cosine_matches_broadcast_and_self_similarity():
+    A = np.array([
+        [1.0, 0.0, 0.0],
+        [1.0, 1.0, 0.0],
+        [0.0, 1.0, 1.0],
+    ])
+
+    out_direct = pairwise_cosine(A)
+    out_broadcast = pairwise_cosine_broadcast(A)
+
+    assert out_direct.shape == (3, 3)
+    assert out_broadcast.shape == (3, 3)
+    assert np.allclose(out_direct, out_broadcast)
+    assert np.allclose(np.diag(out_direct), np.ones(3))
+
+
+def test_pairwise_cosine_zero_vector_behaviour():
+    A = np.array([
+        [0.0, 0.0, 0.0],
+        [1.0, 0.0, 0.0],
+    ])
+
+    with np.errstate(divide='warn', invalid='warn'):
+        with pytest.warns(RuntimeWarning):
+            _ = pairwise_cosine(A)
+
+    with np.errstate(divide='warn', invalid='warn'):
+        with pytest.warns(RuntimeWarning):
+            _ = pairwise_cosine_broadcast(A)
