@@ -68,3 +68,15 @@ def pairwise_cosine_broadcast(A: np.array) -> np.array:
     norm = np.sqrt((A**2).sum(axis=1, keepdims=True))
     normalized = A / norm
     return (normalized[:, None, :] * normalized[None, :, :]).sum(axis=-1)
+
+def feature_thresholds(A: np.array, thresholds: np.array) -> np.array:
+    """
+    input: 
+    A: [B, N, D]
+    thresholds: [D] for each dimension
+
+    output:
+    [B, N, D] with features below threshold masked out
+    """
+    mask = A > thresholds
+    return A * mask
