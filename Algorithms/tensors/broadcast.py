@@ -80,3 +80,19 @@ def feature_thresholds(A: np.array, thresholds: np.array) -> np.array:
     """
     mask = A > thresholds
     return A * mask
+
+def closest_pairwise(A: np.array) -> np.array:
+    """
+    input:
+    A: [N, D]
+    
+    operations:
+    broadcast pairwise distances, filling diagonal self distances with inf
+    as these are trivially 0.
+
+    output: 
+    result: [N], the index closest to each point
+    """
+    pairwise_dists = np.sum((A[:, None, :] - A[None, :, :])**2, axis=2)
+    np.fill_diagonal(pairwise_dists, np.inf)
+    return np.argmin(pairwise_dists, axis=1)

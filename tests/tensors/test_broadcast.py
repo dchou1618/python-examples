@@ -1,4 +1,4 @@
-from Algorithms.tensors.broadcast import layer_norm, batch_norm, normalize_l2, pairwise_cosine, pairwise_cosine_broadcast, feature_thresholds
+from Algorithms.tensors.broadcast import layer_norm, batch_norm, normalize_l2, pairwise_cosine, pairwise_cosine_broadcast, feature_thresholds, closest_pairwise
 import numpy as np
 import pytest
 
@@ -106,3 +106,52 @@ def test_feature_thresholds_all_false_returns_empty():
     assert out.shape == A.shape
     assert np.count_nonzero(out) == 0
     assert np.allclose(out, 0)
+
+
+def test_closest_pairwise_simple_triangle():
+    A = np.array([
+        [0.0, 0.0],
+        [1.0, 0.0],
+        [0.0, 1.0],
+    ])
+
+    # distances:
+    # 0 -> (1:1, 2:1) -> tie -> argmin should pick the first minimal index (1)
+    # 1 -> (0:1, 2:2) -> nearest 0
+    # 2 -> (0:1, 1:2) -> nearest 0
+    out = closest_pairwise(A)
+    assert out.shape == (3,)
+    assert np.array_equal(out, np.array([1, 0, 0]))
+
+
+def test_closest_pairwise_with_duplicates():
+    A = np.array([
+        [0.0, 0.0],
+        [0.0, 0.0],
+        [1.0, 1.0],
+    ])
+
+    out = closest_pairwise(A)
+    # 0 nearest is 1 (distance 0), 1 nearest is 0 (distance 0), 2 nearest is 0 (tie -> lower index)
+    assert np.array_equal(out, np.array([1, 0, 0]))
+
+
+def test_closest_pairwise_single_point_returns_zero():
+    A = np.array([[42.0, -3.1]])
+    out = closest_pairwise(A)
+    assert out.shape == (1,)
+    assert out[0] == 0
+
+
+def test_closest_pairwise_matches_bruteforce_random():
+    rng = np.random.RandomState(2)
+    A = rng.randn(20, 5)
+
+    expected = []
+    for i in range(A.shape[0]):
+        dists = np.sum((A - A[i])**2, axis=1)
+        dists[i] = np.inf
+        expected.append(int(np.argmin(dists)))
+
+    out = closest_pairwise(A)
+    assert np.array_equal(out, np.array(expected))
