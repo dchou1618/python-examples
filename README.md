@@ -14,3 +14,6 @@ Practice with Jupyter Notebook, Python, and Algorithms
     ```
     * The print statement returns True because Python optimizes by caching small values -5 to 256 and short strings into memory. However, if the two variables were assigned to 257, they are not equal.
     * Defining a mutable value in python class body updates the value to be shared by all instances of the class.
+* In exception handling, we have a try finally statement that both contain `return 1` and `return 2` then finally return would hijack the execution. Finally should not contain return statements.
+* For multithreaded work, CPU bounded work will run slower due to competition for a single lock. For I/O heavy work, GIL is released when waiting on network responses and threading works good for I/O tasks.
+* For circular imports, we can avoid this by defining a third file or by doing a local import within a method or local scope. 
