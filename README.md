@@ -17,3 +17,6 @@ Practice with Jupyter Notebook, Python, and Algorithms
 * In exception handling, we have a try finally statement that both contain `return 1` and `return 2` then finally return would hijack the execution. Finally should not contain return statements.
 * For multithreaded work, CPU bounded work will run slower due to competition for a single lock. For I/O heavy work, GIL is released when waiting on network responses and threading works good for I/O tasks.
 * For circular imports, we can avoid this by defining a third file or by doing a local import within a method or local scope. 
+* += mutates in place but `a = a + [1]` creates a new list.
+* `__eq__` verifies object representation of the same value. When used in a set/dictionary, `__hash__` needs to be implemented.
+* `@staticmethod` in python is a normal function that lives in the class's namespace.
