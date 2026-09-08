@@ -1,14 +1,17 @@
 import numpy as np
 
+from mixins.benchmark import BenchmarkMixin
+from mixins.logging import LoggingMixin
 
-def count_max_length_runs(L: int):
-    lst = np.random.randint(0, 2, L)
+
+def count_max_length_runs(length: int, rng=None):
+    lst = np.random.randint(0, 2, length) if rng is None else rng.integers(0, 2, length)
     i = 1
     num_runs = 0
     curr_max = 0
     run = 1
 
-    while i < L:
+    while i < length:
         if lst[i] == lst[i - 1]:
             run += 1
         else:
@@ -28,19 +31,47 @@ def count_max_length_runs(L: int):
     return num_runs
 
 
-def count_num_runs(L: int):
-    lst = np.random.randint(0, 2, L)
+def count_num_runs(length: int, rng=None):
+    lst = np.random.randint(0, 2, length) if rng is None else rng.integers(0, 2, length)
     runs = 1
-    for i in range(1, L):
+    for i in range(1, length):
         if lst[i] != lst[i - 1]:
             runs += 1
     return runs
 
 
-s = 0
-s_count_runs = 0
-for _ in range(10000):
-    s += count_max_length_runs(100)
-    s_count_runs += count_num_runs(100)
-print(s / 10000)
-print(s_count_runs / 10000)
+class CoinRunSimulation(BenchmarkMixin, LoggingMixin):
+    def __init__(self, seed=None):
+        self.rng = np.random.default_rng(seed)
+
+    def simulate(self, steps: int, length: int = 100):
+        if steps < 0:
+            raise ValueError("steps must be non-negative")
+        if length < 1:
+            raise ValueError("length must be positive")
+
+        results = []
+        for step in range(steps):
+            result = {
+                "step": step,
+                "max_length_runs": count_max_length_runs(length, self.rng),
+                "num_runs": count_num_runs(length, self.rng),
+            }
+            results.append(result)
+            self.logger.debug("Completed coin-run simulation step %s", step)
+        return results
+
+    def run(self, steps: int, length: int = 100):
+        return self.benchmark(self.simulate, steps, length)
+
+
+def main():
+    simulation = CoinRunSimulation()
+    benchmark = simulation.run(steps=10_000, length=100)
+    results = benchmark["result"]
+    print(sum(result["max_length_runs"] for result in results) / len(results))
+    print(sum(result["num_runs"] for result in results) / len(results))
+
+
+if __name__ == "__main__":
+    main()
