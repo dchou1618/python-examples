@@ -104,3 +104,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# garak output can contain model responses or prompts
+security/garak/reports/*
+!security/garak/reports/.gitkeep
